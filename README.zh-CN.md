@@ -6,7 +6,7 @@
 
 `tencent-as` 是由 Nomad Autoscaler Agent 从 `plugin_dir` 启动的独立 Target 插件。Agent 负责指标和策略，插件负责 AS 容量与 Nomad 节点排空/后处理；不需要改造 Nomad 服务端，也不要求 Kubernetes。
 
-**发布准备中：** 候选基线已完成开发检查及核心实云验证，包括带作业 1→5→1 和失败恢复。个人仓库为 `huxunpei/nomad-autoscaler-tencent`，采用 [MPL-2.0](LICENSE)。验证范围和发布状态见[发布说明](docs/release.md)。
+**v0.1.0 已发布：** 基线已完成开发检查及核心实云验证，包括带作业 1→5→1 和失败恢复。个人仓库为 `huxunpei/nomad-autoscaler-tencent`，采用 [MPL-2.0](LICENSE)。验证范围见[发布说明](docs/release.md)，其中注明打包后的安装验证尚未进行。
 
 ## 当前行为
 

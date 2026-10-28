@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.1.0 — prepared, unreleased
+## v0.1.0 — 2026-10-28
 
 - Tencent Cloud AS target for the unmodified Nomad Autoscaler Agent.
 - Absolute desired capacity, exact instance deletion and SDK node drain/post processing.

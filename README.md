@@ -4,7 +4,7 @@
 
 `tencent-as` is a standalone Target plugin that connects Nomad Autoscaler to Tencent Cloud Auto Scaling (AS). The Agent runs the plugin from `plugin_dir`; no Nomad server fork or Kubernetes cluster is required. Metrics and strategy evaluation remain in the Autoscaler Agent, while this target manages AS capacity and the Nomad node lifecycle. See the [official plugin model](https://developer.hashicorp.com/nomad/tools/autoscaling/concepts/plugins).
 
-**Release candidate:** v0.1.0 is being prepared under [MPL-2.0](LICENSE). The cloud-tested baseline covers workload scaling 1→5→1 and failure recovery. See [release preparation](docs/release.md) for the tested versions, verification limits and publication status.
+**v0.1.0** is released under [MPL-2.0](LICENSE). The cloud-tested baseline covers workload scaling 1→5→1 and failure recovery. See [release preparation](docs/release.md) for the tested versions and verification limits, including that installation of the packaged release has not been verified.
 
 ## Implemented workflow
 

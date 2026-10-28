@@ -3,7 +3,7 @@
 Personal repository: `huxunpei/nomad-autoscaler-tencent`.
 Module: `github.com/huxunpei/nomad-autoscaler-tencent`.
 License: MPL-2.0. Maintainer: xunpeihu (`huxunpei`). Fix deadline: one month.
-The current package is a release candidate. It has not been published, and installation verification of the packaged release remains pending.
+v0.1.0 is the first release. Installation verification of the packaged release has not been performed.
 
 ## Validation scope for the release notes
 
@@ -15,7 +15,7 @@ The current package is a release candidate. It has not been published, and insta
 - The default 30-minute test verified timing, persistence, retention and late registration. Its complete expiry-to-scale-out path was not executed successfully; no additional run is planned for the first release. A separately configured 3-minute case passed the complete path. Do not report a 30-minute end-to-end PASS.
 - The public-module binary hashes have not run against real AS. Baseline cloud evidence and the public-module builds are bound by an explicit production-source comparison, not by claiming they are the same binary.
 - Ordinary cloud-response loss is covered by synthetic HTTP/official Agent recovery and real AS normal/partial-failure evidence; no additional real-cloud response-loss injection is planned.
-- Installation verification of the packaged release has not occurred. The GitHub workflow is prepared but has not run on GitHub.
+- Installation verification of the packaged release has not occurred. The GitHub workflow ran successfully on the candidate source before release.
 
 ## Candidate preparation
 
