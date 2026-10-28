@@ -1,0 +1,181 @@
+{
+  "max_capacity": 3,
+  "batch": {
+    "id": "live-8e40c3c73077d278d9af51d9b4e21303",
+    "kind": "shrink",
+    "phase": "running",
+    "target": 1,
+    "initial_count": 3,
+    "initial_members": [
+      "ins-multi0",
+      "ins-multi1",
+      "ins-multi2"
+    ],
+    "selected": [
+      {
+        "node_id": "00000001-1111-1111-1111-111111111111",
+        "instance_id": "ins-multi0",
+        "group_id": "asg-test1",
+        "region": "ap-chengdu",
+        "allocations": 0
+      },
+      {
+        "node_id": "00000002-1111-1111-1111-111111111111",
+        "instance_id": "ins-multi1",
+        "group_id": "asg-test1",
+        "region": "ap-chengdu",
+        "allocations": 0
+      }
+    ],
+    "results": [
+      {
+        "id": "live-1e00e31c3b85cd3271bd5c0223a8ec56",
+        "kind": "shrink",
+        "phase": "completed",
+        "target": 2,
+        "instance_id": "ins-multi0",
+        "node_id": "00000001-1111-1111-1111-111111111111",
+        "request_id": "11111111-2222-3333-4444-555555555555",
+        "activity_id": "asa-multi1",
+        "node_modify_index": 1,
+        "unknown": false,
+        "started_at": "2026-10-19T00:36:05.820014021Z",
+        "absent_observations": 2,
+        "activity_status": "SUCCESSFUL",
+        "instance_result": "SUCCESSFUL"
+      }
+    ],
+    "started_at": "2026-10-19T00:36:05.820009797Z"
+  },
+  "version": 2,
+  "group_id": "asg-test1",
+  "region": "ap-chengdu",
+  "drain_deadline_nanoseconds": 60000000000,
+  "desired": 2,
+  "members": {
+    "ins-multi1": {
+      "id": "ins-multi1",
+      "running": true,
+      "joined": true,
+      "protected": false,
+      "eligible": true,
+      "node_id": "00000002-1111-1111-1111-111111111111",
+      "creation_type": "AUTO_CREATION",
+      "lifecycle": "IN_SERVICE",
+      "charge_type": "POSTPAID_BY_HOUR"
+    },
+    "ins-multi2": {
+      "id": "ins-multi2",
+      "running": true,
+      "joined": true,
+      "protected": false,
+      "eligible": true,
+      "node_id": "00000003-1111-1111-1111-111111111111",
+      "creation_type": "AUTO_CREATION",
+      "lifecycle": "IN_SERVICE",
+      "charge_type": "POSTPAID_BY_HOUR"
+    }
+  },
+  "last_operation": {
+    "id": "live-1e00e31c3b85cd3271bd5c0223a8ec56",
+    "kind": "shrink",
+    "phase": "completed",
+    "target": 2,
+    "instance_id": "ins-multi0",
+    "node_id": "00000001-1111-1111-1111-111111111111",
+    "request_id": "11111111-2222-3333-4444-555555555555",
+    "activity_id": "asa-multi1",
+    "node_modify_index": 1,
+    "unknown": false,
+    "started_at": "2026-10-19T00:36:05.820014021Z",
+    "absent_observations": 2,
+    "activity_status": "SUCCESSFUL",
+    "instance_result": "SUCCESSFUL"
+  },
+  "last_event": "deletion-complete",
+  "manual_review": false,
+  "sequence": 1,
+  "observed_at": "2026-10-19T00:36:05.848404026Z",
+  "launch_configuration": {
+    "id": "asc-test1",
+    "status": "NORMAL",
+    "instance_type": "S5.SMALL2",
+    "charge_type": "POSTPAID_BY_HOUR",
+    "image_id": "img-test1",
+    "instance_types": [],
+    "security_group_ids": [
+      "sg-test1"
+    ],
+    "version_number": 1
+  },
+  "cloud": {
+    "at": "2026-10-19T00:36:05.848404026Z",
+    "region": "ap-chengdu",
+    "group": {
+      "id": "asg-test1",
+      "min": 0,
+      "max": 3,
+      "desired": 2,
+      "count": 2,
+      "enabled": "ENABLED",
+      "activity": "NOT_IN_ACTIVITY",
+      "status": "NORMAL",
+      "launch_configuration": "asc-test1",
+      "retry_policy": "NO_RETRY"
+    },
+    "members": [
+      {
+        "id": "ins-multi1",
+        "creation_type": "AUTO_CREATION",
+        "lifecycle": "IN_SERVICE",
+        "added_at": "2026-10-19T00:36:05Z",
+        "protected": false
+      },
+      {
+        "id": "ins-multi2",
+        "creation_type": "AUTO_CREATION",
+        "lifecycle": "IN_SERVICE",
+        "added_at": "2026-10-19T00:36:05Z",
+        "protected": false
+      }
+    ],
+    "vms": {
+      "ins-multi0": {
+        "id": "ins-multi0",
+        "state": "",
+        "charge_type": "",
+        "returned": false,
+        "protected": false
+      },
+      "ins-multi1": {
+        "id": "ins-multi1",
+        "state": "RUNNING",
+        "charge_type": "POSTPAID_BY_HOUR",
+        "returned": true,
+        "protected": false
+      },
+      "ins-multi2": {
+        "id": "ins-multi2",
+        "state": "RUNNING",
+        "charge_type": "POSTPAID_BY_HOUR",
+        "returned": true,
+        "protected": false
+      }
+    },
+    "launch_configuration": {
+      "id": "asc-test1",
+      "status": "NORMAL",
+      "instance_type": "S5.SMALL2",
+      "charge_type": "POSTPAID_BY_HOUR",
+      "image_id": "img-test1",
+      "instance_types": [],
+      "security_group_ids": [
+        "sg-test1"
+      ],
+      "version_number": 1
+    },
+    "policies": [],
+    "policy_count": 0,
+    "request_ids": null
+  }
+}

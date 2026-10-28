@@ -1,0 +1,13 @@
+Tencent Cloud AS target for Nomad Autoscaler
+Personal project maintained by xunpeihu (GitHub: huxunpei).
+
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this file,
+You can obtain one at https://mozilla.org/MPL/2.0/.
+
+Project source: https://github.com/huxunpei/nomad-autoscaler-tencent
+Third-party components retain their own copyrights and licenses.
+See THIRD_PARTY_NOTICES.md and docs/dependency-licenses.json for the
+pinned dependency versions, attribution text and license-file hashes.
+Nomad and Nomad Autoscaler executables are installed separately and are
+not included in this project's binary packages.

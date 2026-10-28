@@ -1,0 +1,93 @@
+{
+  "Commit": "d24948f491db5d0bad77da28f2a6c05f6617c377",
+  "Name": "v1-failed-restored",
+  "MaxCapacity": 0,
+  "DrainDeadline": 60000000000,
+  "Snapshot": {
+    "at": "2026-10-19T00:36:05.561986624Z",
+    "region": "ap-chengdu",
+    "group": {
+      "id": "asg-test1",
+      "min": 0,
+      "max": 1,
+      "desired": 0,
+      "count": 1,
+      "enabled": "ENABLED",
+      "activity": "NOT_IN_ACTIVITY",
+      "status": "NORMAL",
+      "launch_configuration": "asc-test1",
+      "retry_policy": "NO_RETRY"
+    },
+    "members": [
+      {
+        "id": "ins-test1",
+        "creation_type": "AUTO_CREATION",
+        "lifecycle": "IN_SERVICE",
+        "added_at": "2026-10-19T00:36:05Z",
+        "protected": false
+      }
+    ],
+    "vms": {
+      "ins-test1": {
+        "id": "ins-test1",
+        "state": "RUNNING",
+        "charge_type": "POSTPAID_BY_HOUR",
+        "returned": true,
+        "protected": false
+      }
+    },
+    "launch_configuration": {
+      "id": "asc-test1",
+      "status": "NORMAL",
+      "instance_type": "S5.SMALL2",
+      "charge_type": "POSTPAID_BY_HOUR",
+      "image_id": "img-test1",
+      "instance_types": [],
+      "security_group_ids": [
+        "sg-test1"
+      ],
+      "version_number": 1
+    },
+    "policies": [],
+    "policy_count": 0,
+    "request_ids": null
+  },
+  "Nodes": [
+    {
+      "node_id": "11111111-1111-1111-1111-111111111111",
+      "instance_id": "ins-test1",
+      "group_id": "asg-test1",
+      "region": "ap-chengdu",
+      "status": "ready",
+      "drain": false,
+      "has_drain_strategy": false,
+      "eligibility": "eligible",
+      "last_drain": {
+        "status": "canceled",
+        "owner": "nomad-autoscaler-tencent",
+        "operation_id": "live-4c45e2378a166efba63c85e35daddb8c"
+      }
+    }
+  ],
+  "Activities": {
+    "asa-test1": {
+      "type": "REMOVE_INSTANCES",
+      "started_at": "2026-10-19T00:36:05Z",
+      "ended_at": "2026-10-19T00:36:05Z",
+      "id": "asa-test1",
+      "group_id": "asg-test1",
+      "status": "FAILED",
+      "related_instances": [
+        {
+          "id": "ins-test1",
+          "status": "FAILED"
+        }
+      ],
+      "request_ids": null
+    }
+  },
+  "CloudWrites": 1,
+  "NomadWrites": 2,
+  "JournalSHA256": "0d28ad9d9ccfb7f020f56ad6a2bc8860e7e0de37e07faa0f07403424fed53deb",
+  "CapturedBeforeSubmission": false
+}

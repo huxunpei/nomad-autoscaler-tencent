@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "group_id": "asg-test1",
+  "region": "ap-chengdu",
+  "drain_deadline_nanoseconds": 60000000000,
+  "desired": 1,
+  "members": {
+    "ins-test1": {
+      "id": "ins-test1",
+      "running": true,
+      "joined": true,
+      "protected": false,
+      "eligible": true,
+      "node_id": "11111111-1111-1111-1111-111111111111",
+      "creation_type": "AUTO_CREATION",
+      "lifecycle": "IN_SERVICE",
+      "charge_type": "POSTPAID_BY_HOUR"
+    }
+  },
+  "pending": {
+    "id": "live-e40c6cebbabdb411ec6022759961122d",
+    "kind": "shrink",
+    "phase": "drain-intent",
+    "target": 0,
+    "instance_id": "ins-test1",
+    "node_id": "11111111-1111-1111-1111-111111111111",
+    "unknown": false,
+    "started_at": "2026-10-19T00:36:05.615725211Z",
+    "absent_observations": 0
+  },
+  "last_event": "drain-intent",
+  "manual_review": false,
+  "sequence": 1,
+  "observed_at": "2026-10-19T00:36:05.612396633Z",
+  "launch_configuration": {
+    "id": "asc-test1",
+    "status": "NORMAL",
+    "instance_type": "S5.SMALL2",
+    "charge_type": "POSTPAID_BY_HOUR",
+    "image_id": "img-test1",
+    "instance_types": [],
+    "security_group_ids": [
+      "sg-test1"
+    ],
+    "version_number": 1
+  },
+  "cloud": {
+    "at": "2026-10-19T00:36:05.612396633Z",
+    "region": "ap-chengdu",
+    "group": {
+      "id": "asg-test1",
+      "min": 0,
+      "max": 1,
+      "desired": 1,
+      "count": 1,
+      "enabled": "ENABLED",
+      "activity": "NOT_IN_ACTIVITY",
+      "status": "NORMAL",
+      "launch_configuration": "asc-test1",
+      "retry_policy": "NO_RETRY"
+    },
+    "members": [
+      {
+        "id": "ins-test1",
+        "creation_type": "AUTO_CREATION",
+        "lifecycle": "IN_SERVICE",
+        "added_at": "2026-10-19T00:36:05Z",
+        "protected": false
+      }
+    ],
+    "vms": {
+      "ins-test1": {
+        "id": "ins-test1",
+        "state": "RUNNING",
+        "charge_type": "POSTPAID_BY_HOUR",
+        "returned": true,
+        "protected": false
+      }
+    },
+    "launch_configuration": {
+      "id": "asc-test1",
+      "status": "NORMAL",
+      "instance_type": "S5.SMALL2",
+      "charge_type": "POSTPAID_BY_HOUR",
+      "image_id": "img-test1",
+      "instance_types": [],
+      "security_group_ids": [
+        "sg-test1"
+      ],
+      "version_number": 1
+    },
+    "policies": [],
+    "policy_count": 0,
+    "request_ids": null
+  }
+}

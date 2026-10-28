@@ -1,0 +1,114 @@
+{
+  "version": 1,
+  "group_id": "asg-synthetic",
+  "region": "ap-chengdu",
+  "drain_deadline_nanoseconds": 120000000000,
+  "desired": 0,
+  "members": {},
+  "pending": {
+    "id": "live-11111111111111111111111111111111",
+    "kind": "shrink",
+    "phase": "unknown",
+    "target": 0,
+    "instance_id": "ins-synthetic",
+    "node_id": "00000000-0000-4000-8000-000000000001",
+    "node_modify_index": 1666,
+    "unknown": true,
+    "started_at": "2020-01-01T00:00:00Z",
+    "absent_observations": 0
+  },
+  "last_operation": {
+    "id": "live-22222222222222222222222222222222",
+    "kind": "grow",
+    "phase": "completed",
+    "target": 1,
+    "instance_id": "ins-synthetic",
+    "node_id": "00000000-0000-4000-8000-000000000001",
+    "request_id": "00000000-0000-4000-8000-000000000007",
+    "unknown": false,
+    "started_at": "2019-12-31T23:58:47.216210Z",
+    "absent_observations": 0
+  },
+  "last_event": "remove-write-unknown",
+  "manual_review": false,
+  "sequence": 2,
+  "observed_at": "2020-01-01T00:01:20.494810Z",
+  "launch_configuration": {
+    "id": "asc-synthetic",
+    "status": "NORMAL",
+    "instance_type": "S5.SMALL2",
+    "charge_type": "POSTPAID_BY_HOUR",
+    "image_id": "img-synthetic",
+    "instance_types": [
+      "S5.SMALL2"
+    ],
+    "security_group_ids": [
+      "sg-synthetic"
+    ],
+    "version_number": 2
+  },
+  "cloud": {
+    "at": "2020-01-01T00:01:20.494810Z",
+    "region": "ap-chengdu",
+    "group": {
+      "id": "asg-synthetic",
+      "min": 0,
+      "max": 1,
+      "desired": 0,
+      "count": 0,
+      "enabled": "ENABLED",
+      "activity": "NOT_IN_ACTIVITY",
+      "status": "NORMAL",
+      "launch_configuration": "asc-synthetic",
+      "retry_policy": "NO_RETRY"
+    },
+    "members": [],
+    "vms": {
+      "ins-synthetic": {
+        "id": "ins-synthetic",
+        "state": "",
+        "charge_type": "",
+        "returned": false,
+        "protected": false
+      }
+    },
+    "launch_configuration": {
+      "id": "asc-synthetic",
+      "status": "NORMAL",
+      "instance_type": "S5.SMALL2",
+      "charge_type": "POSTPAID_BY_HOUR",
+      "image_id": "img-synthetic",
+      "instance_types": [
+        "S5.SMALL2"
+      ],
+      "security_group_ids": [
+        "sg-synthetic"
+      ],
+      "version_number": 2
+    },
+    "policies": [],
+    "policy_count": 0,
+    "request_ids": [
+      {
+        "action": "DescribeAutoScalingGroups",
+        "request_id": "00000000-0000-4000-8000-000000000005"
+      },
+      {
+        "action": "DescribeAutoScalingInstances",
+        "request_id": "00000000-0000-4000-8000-000000000003"
+      },
+      {
+        "action": "DescribeLaunchConfigurations",
+        "request_id": "00000000-0000-4000-8000-000000000006"
+      },
+      {
+        "action": "DescribeScalingPolicies",
+        "request_id": "00000000-0000-4000-8000-000000000002"
+      },
+      {
+        "action": "DescribeInstances",
+        "request_id": "00000000-0000-4000-8000-000000000004"
+      }
+    ]
+  }
+}

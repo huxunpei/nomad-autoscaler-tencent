@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "group_id": "asg-test1",
+  "region": "ap-chengdu",
+  "drain_deadline_nanoseconds": 60000000000,
+  "desired": 0,
+  "members": {},
+  "pending": {
+    "id": "live-5fcad02b78ee3382f6982e1cd9435440",
+    "kind": "grow",
+    "phase": "growing",
+    "target": 1,
+    "request_id": "11111111-2222-3333-4444-555555555555",
+    "unknown": false,
+    "started_at": "2026-10-19T00:36:05.448039467Z",
+    "absent_observations": 0
+  },
+  "last_event": "growing",
+  "manual_review": false,
+  "sequence": 1,
+  "observed_at": "2026-10-19T00:36:05.444874974Z",
+  "launch_configuration": {
+    "id": "asc-test1",
+    "status": "NORMAL",
+    "instance_type": "S5.SMALL2",
+    "charge_type": "POSTPAID_BY_HOUR",
+    "image_id": "img-test1",
+    "instance_types": [],
+    "security_group_ids": [
+      "sg-test1"
+    ],
+    "version_number": 1
+  },
+  "cloud": {
+    "at": "2026-10-19T00:36:05.444874974Z",
+    "region": "ap-chengdu",
+    "group": {
+      "id": "asg-test1",
+      "min": 0,
+      "max": 1,
+      "desired": 0,
+      "count": 0,
+      "enabled": "ENABLED",
+      "activity": "NOT_IN_ACTIVITY",
+      "status": "NORMAL",
+      "launch_configuration": "asc-test1",
+      "retry_policy": "NO_RETRY"
+    },
+    "members": [],
+    "vms": {},
+    "launch_configuration": {
+      "id": "asc-test1",
+      "status": "NORMAL",
+      "instance_type": "S5.SMALL2",
+      "charge_type": "POSTPAID_BY_HOUR",
+      "image_id": "img-test1",
+      "instance_types": [],
+      "security_group_ids": [
+        "sg-test1"
+      ],
+      "version_number": 1
+    },
+    "policies": [],
+    "policy_count": 0,
+    "request_ids": null
+  }
+}

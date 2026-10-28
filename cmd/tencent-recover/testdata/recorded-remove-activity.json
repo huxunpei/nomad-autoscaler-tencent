@@ -1,0 +1,14 @@
+{
+  "ActivityId": "asa-synthetic",
+  "AutoScalingGroupId": "asg-synthetic",
+  "ActivityType": "REMOVE_INSTANCES",
+  "StartTime": "2020-01-01T00:00:19.783626Z",
+  "EndTime": "2020-01-01T00:00:38.783626Z",
+  "StatusCode": "SUCCESSFUL",
+  "RelatedInstanceSet": [
+    {
+      "InstanceId": "ins-synthetic",
+      "InstanceStatus": "SUCCESSFUL"
+    }
+  ]
+}

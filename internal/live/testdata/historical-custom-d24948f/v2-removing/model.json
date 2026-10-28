@@ -1,0 +1,140 @@
+{
+  "Commit": "d24948f491db5d0bad77da28f2a6c05f6617c377",
+  "Name": "v2-removing",
+  "MaxCapacity": 3,
+  "DrainDeadline": 60000000000,
+  "Snapshot": {
+    "at": "2026-10-19T00:36:05.727570297Z",
+    "region": "ap-chengdu",
+    "group": {
+      "id": "asg-test1",
+      "min": 0,
+      "max": 3,
+      "desired": 2,
+      "count": 3,
+      "enabled": "ENABLED",
+      "activity": "NOT_IN_ACTIVITY",
+      "status": "NORMAL",
+      "launch_configuration": "asc-test1",
+      "retry_policy": "NO_RETRY"
+    },
+    "members": [
+      {
+        "id": "ins-multi0",
+        "creation_type": "AUTO_CREATION",
+        "lifecycle": "IN_SERVICE",
+        "added_at": "2026-10-19T00:36:05Z",
+        "protected": false
+      },
+      {
+        "id": "ins-multi1",
+        "creation_type": "AUTO_CREATION",
+        "lifecycle": "IN_SERVICE",
+        "added_at": "2026-10-19T00:36:05Z",
+        "protected": false
+      },
+      {
+        "id": "ins-multi2",
+        "creation_type": "AUTO_CREATION",
+        "lifecycle": "IN_SERVICE",
+        "added_at": "2026-10-19T00:36:05Z",
+        "protected": false
+      }
+    ],
+    "vms": {
+      "ins-multi0": {
+        "id": "ins-multi0",
+        "state": "RUNNING",
+        "charge_type": "POSTPAID_BY_HOUR",
+        "returned": true,
+        "protected": false
+      },
+      "ins-multi1": {
+        "id": "ins-multi1",
+        "state": "RUNNING",
+        "charge_type": "POSTPAID_BY_HOUR",
+        "returned": true,
+        "protected": false
+      },
+      "ins-multi2": {
+        "id": "ins-multi2",
+        "state": "RUNNING",
+        "charge_type": "POSTPAID_BY_HOUR",
+        "returned": true,
+        "protected": false
+      }
+    },
+    "launch_configuration": {
+      "id": "asc-test1",
+      "status": "NORMAL",
+      "instance_type": "S5.SMALL2",
+      "charge_type": "POSTPAID_BY_HOUR",
+      "image_id": "img-test1",
+      "instance_types": [],
+      "security_group_ids": [
+        "sg-test1"
+      ],
+      "version_number": 1
+    },
+    "policies": [],
+    "policy_count": 0,
+    "request_ids": null
+  },
+  "Nodes": [
+    {
+      "node_id": "00000001-1111-1111-1111-111111111111",
+      "instance_id": "ins-multi0",
+      "group_id": "asg-test1",
+      "region": "ap-chengdu",
+      "status": "ready",
+      "drain": false,
+      "has_drain_strategy": false,
+      "eligibility": "ineligible",
+      "last_drain": {
+        "status": "complete",
+        "owner": "nomad-autoscaler-tencent",
+        "operation_id": "live-cc58f9e1c9784a9426e64f8250bdbed1"
+      }
+    },
+    {
+      "node_id": "00000002-1111-1111-1111-111111111111",
+      "instance_id": "ins-multi1",
+      "group_id": "asg-test1",
+      "region": "ap-chengdu",
+      "status": "ready",
+      "drain": false,
+      "has_drain_strategy": false,
+      "eligibility": "eligible"
+    },
+    {
+      "node_id": "00000003-1111-1111-1111-111111111111",
+      "instance_id": "ins-multi2",
+      "group_id": "asg-test1",
+      "region": "ap-chengdu",
+      "status": "ready",
+      "drain": false,
+      "has_drain_strategy": false,
+      "eligibility": "eligible"
+    }
+  ],
+  "Activities": {
+    "asa-multi1": {
+      "type": "REMOVE_INSTANCES",
+      "started_at": "2026-10-19T00:36:05Z",
+      "id": "asa-multi1",
+      "group_id": "asg-test1",
+      "status": "RUNNING",
+      "related_instances": [
+        {
+          "id": "ins-multi0",
+          "status": "RUNNING"
+        }
+      ],
+      "request_ids": null
+    }
+  },
+  "CloudWrites": 1,
+  "NomadWrites": 1,
+  "JournalSHA256": "7cfe74e175271feb56e4ad9814cb9ad891e8a8227db60d6233905ae35b956fce",
+  "CapturedBeforeSubmission": false
+}

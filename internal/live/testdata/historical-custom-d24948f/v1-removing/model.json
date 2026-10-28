@@ -1,0 +1,92 @@
+{
+  "Commit": "d24948f491db5d0bad77da28f2a6c05f6617c377",
+  "Name": "v1-removing",
+  "MaxCapacity": 0,
+  "DrainDeadline": 60000000000,
+  "Snapshot": {
+    "at": "2026-10-19T00:36:05.478291605Z",
+    "region": "ap-chengdu",
+    "group": {
+      "id": "asg-test1",
+      "min": 0,
+      "max": 1,
+      "desired": 0,
+      "count": 1,
+      "enabled": "ENABLED",
+      "activity": "NOT_IN_ACTIVITY",
+      "status": "NORMAL",
+      "launch_configuration": "asc-test1",
+      "retry_policy": "NO_RETRY"
+    },
+    "members": [
+      {
+        "id": "ins-test1",
+        "creation_type": "AUTO_CREATION",
+        "lifecycle": "IN_SERVICE",
+        "added_at": "2026-10-19T00:36:05Z",
+        "protected": false
+      }
+    ],
+    "vms": {
+      "ins-test1": {
+        "id": "ins-test1",
+        "state": "RUNNING",
+        "charge_type": "POSTPAID_BY_HOUR",
+        "returned": true,
+        "protected": false
+      }
+    },
+    "launch_configuration": {
+      "id": "asc-test1",
+      "status": "NORMAL",
+      "instance_type": "S5.SMALL2",
+      "charge_type": "POSTPAID_BY_HOUR",
+      "image_id": "img-test1",
+      "instance_types": [],
+      "security_group_ids": [
+        "sg-test1"
+      ],
+      "version_number": 1
+    },
+    "policies": [],
+    "policy_count": 0,
+    "request_ids": null
+  },
+  "Nodes": [
+    {
+      "node_id": "11111111-1111-1111-1111-111111111111",
+      "instance_id": "ins-test1",
+      "group_id": "asg-test1",
+      "region": "ap-chengdu",
+      "status": "ready",
+      "drain": false,
+      "has_drain_strategy": false,
+      "eligibility": "ineligible",
+      "last_drain": {
+        "status": "complete",
+        "owner": "nomad-autoscaler-tencent",
+        "operation_id": "live-7c098651051bc46a527c2ac27117913f"
+      }
+    }
+  ],
+  "Activities": {
+    "asa-test1": {
+      "type": "REMOVE_INSTANCES",
+      "started_at": "2026-10-19T00:36:05Z",
+      "id": "asa-test1",
+      "group_id": "asg-test1",
+      "status": "RUNNING",
+      "related_instances": [
+        {
+          "id": "ins-test1",
+          "status": "RUNNING"
+        }
+      ],
+      "request_ids": null
+    }
+  },
+  "CloudWrites": 1,
+  "NomadWrites": 1,
+  "JournalSHA256": "1d4e44e954d9ce4876a6a46f8a16b6ff708d7548ff0f1a7a119549f8ae8cc87e",
+  "CapturedBeforeSubmission": false
+}

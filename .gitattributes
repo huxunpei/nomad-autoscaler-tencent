@@ -1,0 +1,2 @@
+# Preserve the bytes of reproduced third-party notices.
+THIRD_PARTY_NOTICES.md -text

@@ -1,0 +1,16 @@
+/bin/
+/dist/
+/state/
+*.log
+.env
+.env.*
+!.env.example
+*.test
+coverage.out
+
+# Raw lab evidence stays in place; version compact verified bundles and indexes.
+/docs/evidence/*/**
+!/docs/evidence/*/README.md
+!/docs/evidence/*/evidence.tar.gz
+!/docs/evidence/*/evidence.sha256
+__pycache__/
