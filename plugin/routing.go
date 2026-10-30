@@ -95,7 +95,12 @@ func (t *Target) configureRuntime(config map[string]string) error {
 	deps.metrics = telemetry.New()
 	if deps.openCloud == nil {
 		deps.openCloud = func(ctx context.Context, cfg tencentcloud.AuthConfig) (accountCloud, error) {
-			return tencentcloud.NewAuthenticated(ctx, cfg)
+			cloud, err := tencentcloud.NewAuthenticated(ctx, cfg)
+			if err != nil {
+				// Do not convert a nil *Authenticated into a non-nil interface.
+				return nil, err
+			}
+			return cloud, nil
 		}
 	}
 	if deps.openEngine == nil {
@@ -275,7 +280,7 @@ func (r *policyRuntime) openRoute(policy targetconfig.Policy, resume bool) (grou
 		snap, readErr := r.cloud.Observe(ctx, policy.GroupID, "")
 		cancel()
 		if readErr != nil {
-			return nil, nil, errors.New("GroupInitializationObservationFailed")
+			return nil, nil, &routeObservationError{cause: readErr}
 		}
 		if snap.Region != r.agent.Region || snap.Group.ID != policy.GroupID || snap.Group.Min < 0 || snap.Group.Max < snap.Group.Min {
 			return nil, nil, errors.New("UnsupportedGroupCapacity")

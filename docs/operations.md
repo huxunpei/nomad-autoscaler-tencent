@@ -95,8 +95,37 @@ The optional numeric-loopback listener exposes `/metrics`:
 
 `tencent_as_process_start_time_seconds` identifies counter resets. Counters aggregate groups in one plugin process and are separate from Agent metrics. Scraping only reads memory, not credentials, journal or cloud APIs. Use an existing local monitoring agent for remote collection; do not widen the listener to a public interface.
 
+## Troubleshooting
+
+A healthy start logs `successfully launched and dispensed plugin` with `"plugin_name":"tencent-as"` in the Agent log. Errors from the plugin are short codes or messages:
+
+Starting with v0.1.1, a startup authentication failure returns its error without
+switching credential sources. v0.1.0 instead could panic during failure cleanup,
+leaving the Agent with an EOF; the authentication rows below describe the fixed
+behavior. Initialization warnings retain their generic `code` and add
+`cause_code` when a structured cloud error is available. Raw error messages are
+not logged, and retry timing is unchanged.
+
+| Message or code | Meaning | What to do |
+| --- | --- | --- |
+| `invalid <key>` (for example `invalid tencent_region`, `invalid tencent_group_id`, `invalid restart_cooldown`) | The value does not have the documented format | Check the key in the [configuration reference](configuration.md). A region looks like `ap-guangzhou`; a group ID starts with `asg-`; durations are Go durations such as `2m`. |
+| `unknown or misplaced Agent option` / `unknown or misplaced policy option` | A key is not valid at that layer | Region, state directory and authentication keys go in the Agent `target` block. `tencent_group_id`, node filters and `restart_cooldown` go in the policy `target` block. |
+| `UnknownNomadOption` | A `nomad_*` key is not one of the supported connection keys | See "Nomad connection" in the configuration reference. |
+| `StateDirectoryNotPrivate`, `RouteDirectoryNotPrivate` | The state directory is accessible to group or other users | `chmod 0700` the directory; it must belong to the Agent's user. |
+| `UnsafeStateDirectory`, `UnsafeRouteDirectory`, `StateDirectoryFailed` | A path component is a symbolic link, or the directory cannot be created | Use a real directory path and check permissions of its parents. |
+| `InstanceIdentityUnavailable`, `InvalidInstanceRole`, `InvalidMetadataResponse` | The instance role or its credentials could not be read | Check that a CAM role is bound to the CVM and that `metadata.tencentyun.com` is reachable. There is no fallback to static keys. |
+| `InvalidCredentialMaterial` | The explicitly selected API-key source has missing or invalid credential values | Supply both `TENCENTCLOUD_SECRET_ID` and `TENCENTCLOUD_SECRET_KEY`, or a valid explicit credentials file. Empty API-key configuration does not fall back to the instance role. |
+| `CredentialFileUnavailable`, `InvalidCredentialFile`, `UnsafeCredentialFile`, `CredentialFileUnreadable`, `CredentialExpiredOrExpiring` | Problem with the `api_key` credentials file | It must be an absolute path, a regular file with mode `0600` or `0400`, at most 64 KiB, with `secret_id` and `secret_key`; an `expired_time` needs a `token` and at least one minute remaining. |
+| `GroupInitializationObservationFailed` with `cause_code=GroupMissingOrIncomplete` | The group read did not yield exactly one complete group; missing permission can also produce an empty result | Check the group ID, account, API region and [CAM resource scope](permissions.md). Initialization retries and the Agent may report a Status timeout; this code alone cannot distinguish a missing group from missing permission. |
+| `UnauthorizedOperation` | The identity lacks a permission | See [permissions](permissions.md). A denied read is an error, never "the VM is gone". |
+| `LaunchConfigurationChanged` | The group's launch configuration changed after it was bound | Accept it deliberately with `lc-preview` / `lc-apply` ([procedure](safe-policy-updates.md#accepting-a-changed-launch-configuration)). |
+| `DesiredCapacityConflict` | The group's desired size was changed by someone else | Keep one capacity writer; preserve the diagnostics and investigate before any retry. |
+| `prototype config reload requires plugin restart` | The Agent re-sent a changed target configuration (for example on SIGHUP) | Restart the Agent. |
+
+`tencent-recover --help` prints the usage. The documented subcommands are `policy-preview` / `policy-apply` and `lc-preview` / `lc-apply` ([procedures](safe-policy-updates.md)). The older `preview`, `apply` and `repair` subcommands are for completing interrupted recovery; they are not part of routine operation, and normal failures recover automatically. Do not use them to get past an unresolved state: keep the whole state directory and open an issue first.
+
 ## Known limitations
 
 Use an unmodified official Agent. On the tested v0.6.0 baseline, an Agent restart skips any remaining cooldown unless the policy target sets `restart_cooldown` to that policy's cooldown (or the longer of `cooldown` and `cooldown_on_scale_up` when they differ). The plugin then reports the target not ready until that window ends. Omitting the setting allows another scale immediately after restart; waiting out the old window by hand is only a fallback when the setting was forgotten. With `policy_dir` set to the Agent policy directory, the plugin warns when loaded policy bounds exceed current cloud limits, even if the requested target is within those limits. These warnings are advisory; the plugin enforces fresh cloud boundaries. Align policy and group limits during deployment/change review. Valid SIGHUP file-policy updates also have a known Agent limitation; apply changes through a controlled restart. A patched Agent is not a deployment dependency. The upstream cooldown deadline fix still has to reach the official release the deployment runs.
 
-Core cloud validation covers workload scaling `1→5→1`, partial-growth and failed-deletion recovery, instance identity, scoped permissions and scale-in protection. Architecture loading and targeted runtime checks have separate results. The complete default 30-minute expiry-to-scale-out path was not successfully completed and will not be rerun for the first release; the separately configured 3-minute path passed. Public-module binaries have not run against real AS. See [release preparation](release.md) for source bindings and the exact verification scope.
+Core cloud validation covers workload scaling `1→5→1`, partial-growth and failed-deletion recovery, instance identity, scoped permissions and scale-in protection. Architecture loading and targeted runtime checks have separate results. The complete default 30-minute expiry-to-scale-out path was not successfully completed and will not be rerun for the first release; the separately configured 3-minute path passed. The v0.1.1 linux-amd64 binary passed a read-only startup check on real AS; scaling was not rerun with the v0.1.1 binaries. See [release preparation](release.md) for source bindings and the exact verification scope.

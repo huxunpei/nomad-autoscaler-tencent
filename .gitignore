@@ -13,4 +13,6 @@ coverage.out
 !/docs/evidence/*/README.md
 !/docs/evidence/*/evidence.tar.gz
 !/docs/evidence/*/evidence.sha256
+!/docs/evidence/*/evidence-*.tar.gz
+!/docs/evidence/*/evidence-*.sha256
 __pycache__/

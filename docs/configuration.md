@@ -1,6 +1,8 @@
 # Configuration reference
 
-This reference describes the current default target. Do not set `tencent_backend`: `simulation` and `live-experimental` are separate historical development modes. Values inside the Agent target `config` and policy target block are strings.
+This reference describes the current default target. Do not set `tencent_backend`; it selects internal development modes that are not for deployment. Values inside the Agent target `config` and policy target block are strings.
+
+Terms: **AS** is Tencent Cloud Auto Scaling, an **ASG** is an AS scaling group, and a **launch configuration** is the AS template that creates the group's VMs. The **state directory** holds the plugin's durable record of each group: `route.json` (which account, region and group a directory belongs to) and `live.json` (the journal of actions, completion times and recovery evidence). "Version 3" state is what a new installation writes.
 
 ## Agent target configuration
 
@@ -11,7 +13,7 @@ Use the [Agent template](../examples/autoscaler.hcl). One authenticated target c
 | `tencent_region` | required | Region of the target groups; a different region needs a separately configured target instance. |
 | `tencent_auth_method` | `instance_identity` | Use the current CVM's existing instance role; `api_key` is explicit. No silent fallback or IAM creation. |
 | `tencent_credentials_file` | empty | With `api_key`, an explicit absolute JSON file path. Without it, use the selected process environment. |
-| `tencent_state_dir` | `/var/lib/nomad-autoscaler/tencent-as` | Persistent absolute private directory, not `/`; account/region/group routes and locks live below it. |
+| `tencent_state_dir` | `/var/lib/nomad-autoscaler/tencent-as` | Persistent absolute private directory, not `/`; account/region/group routes and locks live below it. It must be mode `0700`, owned by the Agent's user, with no symbolic link in the path; files inside are `0600`. A missing directory is created with `0700`. An existing one that group or other users can access is refused (`StateDirectoryNotPrivate`). Layout: `accounts/<account>/<region>/<asg-id>/`. |
 | `policy_dir` | empty | Absolute path matching the Agent's file-policy directory. Enables advisory policy min/max checks; no path produces an Info message and skips this diagnostic. |
 | `tencent_registration_grace_period` | `30m` | Positive initial-registration duration measured from AS AddTime. Waiting protects the VM and gates readiness; expiry reports failure and permits otherwise safe evaluation, never automatic deletion. See [registration grace](registration-grace.md). |
 | `retry_attempts` | `15` | Positive stabilization poll budget per acknowledged cloud write; separate from bounded API throttling retries and drain/task deadlines. The normal poll interval is 5 seconds. |
@@ -81,13 +83,28 @@ client {
 }
 ```
 
-This is a fragment, not a standalone client configuration. Each client needs its own real ID and connectivity/authentication to the intended Nomad servers. If a custom key is configured, write that key consistently. The current default target obtains group/region membership from cloud reads; extra `tencent_group_id`/`tencent_region` node metadata are not required. Other providers' nodes must not collide with the selected mapping.
+Read the instance ID from the CVM metadata service at first boot and write it as an extra Nomad configuration file (Nomad merges all files in its config directory; adjust the path to your setup):
+
+```sh
+ID=$(curl -fsS --max-time 5 http://metadata.tencentyun.com/latest/meta-data/instance-id)
+cat > /etc/nomad.d/cloud-instance-id.hcl <<EOF
+client {
+  meta {
+    cloud_instance_id = "${ID}"
+  }
+}
+EOF
+```
+
+The `instance-id` path is taken from Tencent's [instance metadata documentation](https://cloud.tencent.com/document/product/213/4934); check it on your image. The same metadata service supplies the instance-role credentials used by the default identity, so the host must reach `metadata.tencentyun.com`.
+
+The first block above is a fragment, not a standalone client configuration. Each client needs its own real ID and connectivity/authentication to the intended Nomad servers. If a custom key is configured, write that key consistently. The current default target obtains group/region membership from cloud reads; extra `tencent_group_id`/`tencent_region` node metadata are not required. Other providers' nodes must not collide with the selected mapping.
 
 Starting/unregistered VMs count toward capacity and are never selected for deletion. The [registration grace contract](registration-grace.md) defaults to 30 minutes from AS AddTime. After timeout, report the failed registration and permit other safe operations when the cloud is stable; do not automatically destroy or replace the absent VM. A late registration clears the timeout. Query errors and ambiguous mappings remain blocked.
 
 ## Credentials
 
-Default instance identity requires an already available CVM instance role and metadata access. Startup performs a bounded `GetCallerIdentity` validation; failure does not try static credentials. It does not prove all group permissions.
+Default instance identity requires a CAM role already bound to the CVM that runs the Agent, and access to `http://metadata.tencentyun.com` (the instance metadata service). Startup performs a bounded `GetCallerIdentity` validation; failure does not try static credentials. It does not prove all group permissions.
 
 For `api_key` without a file, supply `TENCENTCLOUD_SECRET_ID`, `TENCENTCLOUD_SECRET_KEY`, and optional `TENCENTCLOUD_TOKEN` through the runtime's existing secret injection. The environment is captured at startup, so replacement requires restart. Historical `TENCENT_AS_*` variables are not a fallback for this entrypoint.
 

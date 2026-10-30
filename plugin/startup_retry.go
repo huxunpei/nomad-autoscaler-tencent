@@ -1,6 +1,18 @@
 package plugin
 
-import "time"
+import (
+	"errors"
+	"time"
+
+	"github.com/huxunpei/nomad-autoscaler-tencent/internal/tencentcloud"
+)
+
+// Keep the retry classification stable while retaining the structured cloud
+// cause for diagnostics. Never include the raw observation error in Error().
+type routeObservationError struct{ cause error }
+
+func (e *routeObservationError) Error() string { return "GroupInitializationObservationFailed" }
+func (e *routeObservationError) Unwrap() error { return e.cause }
 
 // Only fixed, known availability/IO errors opt into automatic initialization
 // retry. Scope conflicts, corrupt journals, unsafe records, migrations and
@@ -62,7 +74,13 @@ func (r *policyRuntime) initializeRoute(route *groupRoute) {
 		}
 		delay := routeInitializationDelay(r.deps.interval, attempt)
 		if r.logger != nil {
-			r.logger.Warn("group controller initialization will retry", "group", route.policy.GroupID, "code", err.Error(), "attempt", attempt+1, "retry_delay", delay)
+			fields := []interface{}{"group", route.policy.GroupID, "code", err.Error(), "attempt", attempt + 1, "retry_delay", delay}
+			var cloudErr *tencentcloud.Error
+			if errors.As(err, &cloudErr) {
+				// The adapter exposes sanitized codes, not provider messages or credentials.
+				fields = append(fields, "cause_code", cloudErr.Code)
+			}
+			r.logger.Warn("group controller initialization will retry", fields...)
 		}
 		timer := time.NewTimer(delay)
 		select {

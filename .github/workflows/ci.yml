@@ -21,13 +21,13 @@ jobs:
         shell: bash
         run: |
           python3 -B scripts/test_prepare_source.py
-          python3 -B scripts/prepare_source.py --source . --output "$RUNNER_TEMP/tencent-source" --module github.com/huxunpei/nomad-autoscaler-tencent --gofmt "$(go env GOROOT)/bin/gofmt" --mode candidate --version 0.1.0
+          python3 -B scripts/prepare_source.py --source . --output "$RUNNER_TEMP/tencent-source" --module github.com/huxunpei/nomad-autoscaler-tencent --gofmt "$(go env GOROOT)/bin/gofmt" --mode candidate --version 0.1.1
       - name: Check
         shell: bash
         run: python3 -B "$RUNNER_TEMP/tencent-source/scripts/check_review.py" --source "$RUNNER_TEMP/tencent-source" --output "$RUNNER_TEMP/tencent-checks" --go "$(command -v go)"
       - name: Build both architectures
         shell: bash
-        run: python3 -B "$RUNNER_TEMP/tencent-source/scripts/build_review.py" --source "$RUNNER_TEMP/tencent-source" --output "$RUNNER_TEMP/tencent-artifacts" --go "$(command -v go)" --mode candidate --version 0.1.0
+        run: python3 -B "$RUNNER_TEMP/tencent-source/scripts/build_review.py" --source "$RUNNER_TEMP/tencent-source" --output "$RUNNER_TEMP/tencent-artifacts" --go "$(command -v go)" --mode candidate --version 0.1.1
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:

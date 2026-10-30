@@ -1,9 +1,14 @@
-# v0.1.0 release preparation
+# v0.1.1 release preparation
 
 Personal repository: `huxunpei/nomad-autoscaler-tencent`.
 Module: `github.com/huxunpei/nomad-autoscaler-tencent`.
 License: MPL-2.0. Maintainer: xunpeihu (`huxunpei`). Fix deadline: one month.
-v0.1.0 is the first release. Installation verification of the packaged release has not been performed.
+v0.1.1 is a bug-fix release. It fixes startup authentication cleanup,
+adds structured causes to initialization warnings, and updates the documentation.
+The plugin binaries change. The checks were the production-path authentication
+and retry-diagnostic regressions, full development checks, builds for both Linux
+architectures, installation/loading with the official Agent, and a read-only
+real-cloud startup check. The package's validation record has the results.
 
 ## Validation scope for the release notes
 
@@ -13,9 +18,9 @@ v0.1.0 is the first release. Installation verification of the packaged release h
 - Separate five-minute restart cooldown, real Nomad ACL/mTLS, purge=false/true and lost-acknowledgement recovery passed. Cloud APIs in those targeted tests were synthetic.
 - Linux amd64 loading is native; arm64 loading uses QEMU user emulation, not native arm64 hardware.
 - The default 30-minute test verified timing, persistence, retention and late registration. Its complete expiry-to-scale-out path was not executed successfully; no additional run is planned for the first release. A separately configured 3-minute case passed the complete path. Do not report a 30-minute end-to-end PASS.
-- The public-module binary hashes have not run against real AS. Baseline cloud evidence and the public-module builds are bound by an explicit production-source comparison, not by claiming they are the same binary.
+- The v0.1.1 linux-amd64 binary passed a read-only startup check on real AS on 2026-10-30. It authenticated with an instance role and read the authorized group without scaling. A group outside the policy was reported as `GroupMissingOrIncomplete` with no capacity write, and an empty API key was reported as `InvalidCredentialMaterial` without a panic. Scaling, deletion and recovery were not rerun with the v0.1.1 binaries. The Go changes are limited to startup authentication and initialization diagnostics, so earlier cloud results remain the baseline for scaling behavior.
 - Ordinary cloud-response loss is covered by synthetic HTTP/official Agent recovery and real AS normal/partial-failure evidence; no additional real-cloud response-loss injection is planned.
-- Installation verification of the packaged release has not occurred. The GitHub workflow ran successfully on the candidate source before release.
+- Installation/loading checks with the official Agent use no real cloud credentials or permissions. amd64 runs natively and arm64 uses QEMU user emulation. The GitHub workflow ran successfully on the candidate source before release.
 
 ## Candidate preparation
 
@@ -28,10 +33,10 @@ packager; see [privacy checks and validation schema](building.md#source-privacy-
 ```sh
 python3 -B scripts/prepare_source.py --source . --output /tmp/tencent-source-candidate \
   --module github.com/huxunpei/nomad-autoscaler-tencent --gofmt /absolute/go/bin/gofmt \
-  --mode candidate --version 0.1.0
+  --mode candidate --version 0.1.1
 python3 -B /tmp/tencent-source-candidate/scripts/build_review.py \
   --source /tmp/tencent-source-candidate --output /tmp/tencent-build-candidate \
-  --go /absolute/go/bin/go --mode candidate --version 0.1.0
+  --go /absolute/go/bin/go --mode candidate --version 0.1.1
 python3 -B /tmp/tencent-source-candidate/scripts/package_release.py \
   --source /tmp/tencent-source-candidate --artifacts /tmp/tencent-build-candidate \
   --output /tmp/tencent-package-candidate --validation /absolute/VALIDATION.json --mode candidate
@@ -59,7 +64,7 @@ The approval schema is:
   "format": 1,
   "decision": "approve-release",
   "module": "github.com/huxunpei/nomad-autoscaler-tencent",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "candidate_manifest_sha256": "<SHA256 of the exact candidate SOURCE-MANIFEST.json>",
   "approved_by": "<approving GitHub account>",
   "approved_at": "<actual UTC time: YYYY-MM-DDTHH:MM:SSZ>",
@@ -68,7 +73,7 @@ The approval schema is:
 ```
 
 Keep the record outside exported inputs. Manually run the exporter and builder
-with `--mode release --version 0.1.0 --approval /absolute/approval.json`, using
+with `--mode release --version 0.1.1 --approval /absolute/approval.json`, using
 the same candidate inputs, public module and formatter. Then run the packager
 with `--mode release --approval /absolute/approval.json`. Bind the validation
 record to the new approved source manifest; retain the candidate evidence.
@@ -87,7 +92,7 @@ Publish the source archive and both Linux architecture archives together. Binary
 archives include tencent-as, tencent-recover, LICENSE, NOTICE, third-party notices,
 checksums and build/dependency metadata. Install the official Agent separately.
 
-Verify SHA256SUMS. Adapt the disabled examples, select instance identity or
+Verify SHA256SUMS as described in "Install from a release" in the README. Adapt the disabled examples, select instance identity or
 explicit API-key authentication, and configure `restart_cooldown`, `policy_dir`,
 permissions, node identity and persistent state as documented. Complete an
 installation walkthrough in the target environment before enabling the policy.
